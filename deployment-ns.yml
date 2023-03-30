@@ -1,0 +1,56 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: hacker-company
+spec: {}
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: hacker
+    state: frontend
+  name: hacker
+  namespace: hacker-company
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hacker
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: hacker
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: hacker
+    state: frontend
+  name: frontend
+  namespace: hacker-company
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8888
+  selector:
+    app: hacker
+  type: "ClusterIP"
+status:
+  loadBalancer: {}
+
